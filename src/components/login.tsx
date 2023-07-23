@@ -26,6 +26,10 @@ interface LoginProps {
 }
 
 export const Login: React.FC<LoginProps> = ({ error, onSubmit, ...props }) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   // @ts-ignore
   const [showProjectForm, setShowProjectForm] = useState(
     (props.showProject || props.showProject === undefined) &&

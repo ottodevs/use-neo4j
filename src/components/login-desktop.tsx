@@ -24,6 +24,10 @@ export const LoginDesktop: React.FC<LoginDesktopProps> = ({
   hide,
   onSubmit,
 }) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   const [loading, setLoading] = useState<boolean>(true);
   const [projects, setProjects] = useState([]);
 

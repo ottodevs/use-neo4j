@@ -34,6 +34,10 @@ interface Neo4jProviderProps {
 export const Neo4jProvider: React.FC<Neo4jProviderProps> = (
   props: Neo4jProviderProps
 ) => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   const configFromStorage: Neo4jConfig = (
     window !== undefined && window?.localStorage
       ? JSON.parse(
