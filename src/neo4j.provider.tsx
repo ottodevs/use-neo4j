@@ -31,23 +31,16 @@ interface Neo4jProviderProps {
   footer?: React.ReactNode | React.ReactNode[] | null;
 }
 
-export const getWindow = () => {
-  if (typeof window !== "undefined") {
-    // If window is defined (client-side), return it
-    return window;
-  } else {
-    // If window is not defined (server-side), return a dummy object
-    return {};
-  }
-};
-
 export const Neo4jProvider: React.FC<Neo4jProviderProps> = (
   props: Neo4jProviderProps
 ) => {
-  const window: any = getWindow();
   const configFromStorage: Neo4jConfig = (
-    window?.localStorage
-      ? JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY) || "{}")
+    window !== undefined && window?.localStorage
+      ? JSON.parse(
+          (window !== undefined &&
+            window.localStorage.getItem(LOCAL_STORAGE_KEY)) ||
+            "{}"
+        )
       : {}
   ) as Neo4jConfig;
 
@@ -75,7 +68,8 @@ export const Neo4jProvider: React.FC<Neo4jProviderProps> = (
       .verifyConnectivity()
       .then(() => {
         setDriver(newDriver);
-        window?.localStorage &&
+        window !== undefined &&
+          window?.localStorage &&
           window.localStorage.setItem(
             LOCAL_STORAGE_KEY,
             JSON.stringify(config)
@@ -108,7 +102,7 @@ export const Neo4jProvider: React.FC<Neo4jProviderProps> = (
       return;
     }
 
-    if (window?.location?.search !== undefined) {
+    if (window !== undefined && window?.location?.search !== undefined) {
       const searchParams = new URLSearchParams(window.location.search);
 
       // Attempt to connect from URL parameters

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Neo4jConfig } from "../neo4j-config.interface";
 import { FormButton, FormInput, FormSelect } from "./form-items";
-import { getWindow } from "../neo4j.provider";
 
 interface LoginDesktopProps {
   classNames: Record<string, any>;
@@ -18,8 +17,6 @@ interface Neo4jDesktopWindow extends Window {
   neo4jDesktopApi: Neo4jDesktopApi;
   [key: string]: any;
 }
-
-const window: any = getWindow();
 
 export const LoginDesktop: React.FC<LoginDesktopProps> = ({
   classNames,
